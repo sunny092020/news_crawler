@@ -106,7 +106,7 @@ TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
 VNEXPRESS_SELECTORS = {
-    'article': 'div.title-news a::attr(href)',
+    'article': '.title_news a::attr(href)',
     'title': 'h1.title-detail::text',
     'content': 'article.fck_detail',
     'publication_date': 'span.date::text',
