@@ -14,7 +14,7 @@ import pytz
 from news_scrapy.settings import VNEXPRESS_SELECTORS
 import traceback
 
-class VnexpressSpider:
+class VnexpressSpiderSelenium:
 
     def __init__(self):
         self.driver = None
