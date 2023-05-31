@@ -106,17 +106,17 @@ TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 FEED_EXPORT_ENCODING = "utf-8"
 
 VNEXPRESS_SELECTORS = {
-    'article': '.title_news a',
-    'title': 'h1.title-detail',
+    'article': '.title_news a::attr(href)',
+    'title': 'h1.title-detail::text',
     'content': 'article.fck_detail',
-    'publication_date': 'span.date',
-    'author': 'p.Normal strong',
+    'publication_date': 'span.date::text',
+    'author': 'p.Normal strong::text',
 }
 
 DANTRI_SELECTORS = {
-    'article': '.title_news a',
-    'title': 'h1.title-detail',
+    'article': 'div.title-news a::attr(href)',
+    'title': 'h1.title-detail::text',
     'content': 'article.fck_detail',
-    'publication_date': 'span.date',
-    'author': 'p.Normal strong',
+    'publication_date': 'span.date::text',
+    'author': 'p.Normal strong::text',
 }
