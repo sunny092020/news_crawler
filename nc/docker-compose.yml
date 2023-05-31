@@ -1,0 +1,60 @@
+version: "3.2"
+
+services:
+  nc_postgresql:
+    image: postgres:13
+    container_name: nc_postgresql
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=nc
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - nc-db:/var/lib/postgresql/data
+    networks:
+      nc_network:
+        ipv4_address: 10.3.0.5
+
+  nc_backend:
+    expose:
+      - 8000
+    ports:
+      - 8000:8000
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    container_name: nc_backend
+    command: gunicorn nc.wsgi:application --workers 2 --thread 3 --bind 0.0.0.0:8000 --reload
+    volumes:
+      - ./backend:/home/app/web
+    environment:
+      - EXTERNAL_IP=127.0.0.1
+      - POSTGRES_HOST=10.3.0.5
+      - POSTGRES_DB=nc
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - DEBUG=True
+      - AWS_ACCESS_KEY_ID=<PLEASE_INPUT>
+      - AWS_SECRET_ACCESS_KEY=<PLEASE_INPUT>
+      - AWS_STORAGE_BUCKET_NAME=<PLEASE_INPUT>
+      - AWS_S3_REGION_NAME=<PLEASE_INPUT>
+      - SECRET_KEY=django-insecure
+    restart: always
+    depends_on:
+      - nc_postgresql
+    networks:
+      nc_network:
+        ipv4_address: 10.3.0.7
+
+networks:
+  nc_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.3.0.0/16
+
+volumes:
+  nc-db:
+    driver: local
