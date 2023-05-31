@@ -9,12 +9,12 @@ logger = logging.getLogger(__name__)
 
 
 class Article(models.Model):
-    title = models.CharField(max_length=200)
-    url = models.URLField(max_length=500, unique=True)
-    author = models.CharField(max_length=100, blank=True)
-    published_date = models.DateTimeField()
-    content = models.TextField()
-    site = models.CharField(max_length=100)
+    title = models.CharField(max_length=200, blank=False)
+    url = models.URLField(max_length=500, unique=True, blank=False, null=False)
+    author = models.CharField(max_length=100, blank=False)
+    published_date = models.DateTimeField(blank=False, null=False)
+    content = models.TextField(blank=False, null=False)
+    site = models.CharField(max_length=100, blank=False)
 
     def __str__(self):
         return self.title

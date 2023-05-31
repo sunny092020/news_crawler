@@ -17,3 +17,4 @@ flake8==6.0.0
 black==23.3.0
 djangorestframework-simplejwt==5.2.2
 scrapy==2.8.0
+asgiref==3.7.2

@@ -10,8 +10,13 @@ from itemadapter import ItemAdapter
 from nc.news.models import Article
 
 class NewsScrapyPipeline:
-    def process_item(self, item, spider):
+    async def process_item(self, item, spider):
         article = Article(**item)
-        article.save()
+        await self.save_article(article)
         print("Saved article: ", article)
         return item
+
+    @staticmethod
+    @sync_to_async
+    def save_article(article):
+        article.save()
