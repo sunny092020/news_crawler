@@ -6,13 +6,18 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-# Setting up django's project full path.**
-import sys
-sys.path.insert(0, '/home/app/web')
-
-# Setting up django's settings module name.
 import os
+import sys
+import django
+
+# Add the Django project to the Python path
+sys.path.append(os.path.dirname(os.path.abspath('.')))
+
+# Set the Django settings module
 os.environ['DJANGO_SETTINGS_MODULE'] = 'nc.settings'
+
+# Setup Django
+django.setup()
 
 
 BOT_NAME = "news_scrapy"
