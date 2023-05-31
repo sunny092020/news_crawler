@@ -14,7 +14,7 @@ class Article(models.Model):
     author = models.CharField(max_length=100, blank=True)
     published_date = models.DateTimeField()
     content = models.TextField()
-    source = models.CharField(max_length=100)
+    site = models.CharField(max_length=100)
 
     def __str__(self):
         return self.title
