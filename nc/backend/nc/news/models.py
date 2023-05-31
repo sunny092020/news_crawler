@@ -19,4 +19,3 @@ class Article(models.Model):
     def __str__(self):
         print("print self.title22: ", self.title)
         return self.title
-

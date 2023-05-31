@@ -2,6 +2,7 @@ from asgiref.sync import sync_to_async
 from itemadapter import ItemAdapter
 from nc.news.models import Article
 
+
 class NewsScrapyPipeline:
     async def process_item(self, item, spider):
         article = Article(**item)
@@ -24,4 +25,3 @@ class NewsScrapyPipeline:
                 "site": article.site,
             },
         )
-

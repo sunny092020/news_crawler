@@ -14,8 +14,8 @@ import pytz
 from news_scrapy.settings import VNEXPRESS_SELECTORS
 import traceback
 
-class VnexpressSpiderSelenium:
 
+class VnexpressSpiderSelenium:
     def __init__(self):
         self.driver = None
         self.wait = None
@@ -30,7 +30,7 @@ class VnexpressSpiderSelenium:
         chrome_options.add_argument("--disable-dev-shm-usage")
 
         # Set path to chromedriver as per your configuration
-        webdriver_service = Service('chromedriver')
+        webdriver_service = Service("chromedriver")
 
         self.driver = webdriver.Chrome(service=webdriver_service, options=chrome_options)
         self.wait = WebDriverWait(self.driver, 10)
@@ -39,9 +39,13 @@ class VnexpressSpiderSelenium:
         self.parse()
 
     def parse(self):
-        articles = self.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, VNEXPRESS_SELECTORS['article'])))
-        
-        article_urls = [article.get_attribute('href') for article in articles]
+        articles = self.wait.until(
+            EC.presence_of_all_elements_located(
+                (By.CSS_SELECTOR, VNEXPRESS_SELECTORS["article"])
+            )
+        )
+
+        article_urls = [article.get_attribute("href") for article in articles]
 
         print("print Number of article_urls44: ", len(article_urls))
 
@@ -57,18 +61,28 @@ class VnexpressSpiderSelenium:
     def parse_article(self):
         item = ArticleItem()
 
-        item["title"] = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, VNEXPRESS_SELECTORS['title']))).text
+        item["title"] = self.wait.until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, VNEXPRESS_SELECTORS["title"]))
+        ).text
         item["url"] = self.driver.current_url
-        item["content"] = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, VNEXPRESS_SELECTORS['content']))).text
+        item["content"] = self.wait.until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, VNEXPRESS_SELECTORS["content"]))
+        ).text
         item["site"] = "vnexpress.net"
 
-        raw_date = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, VNEXPRESS_SELECTORS['publication_date']))).text
+        raw_date = self.wait.until(
+            EC.presence_of_element_located(
+                (By.CSS_SELECTOR, VNEXPRESS_SELECTORS["publication_date"])
+            )
+        ).text
         logging.debug("Raw date: %s", raw_date)
 
         parsed_date = self.parse_date(raw_date)
         item["published_date"] = parsed_date
 
-        item["author"] = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, VNEXPRESS_SELECTORS['author']))).text
+        item["author"] = self.wait.until(
+            EC.presence_of_element_located((By.CSS_SELECTOR, VNEXPRESS_SELECTORS["author"]))
+        ).text
         self.items.append(item)
 
     def parse_date(self, date_str):
