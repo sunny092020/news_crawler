@@ -17,5 +17,6 @@ class Article(models.Model):
     site = models.CharField(max_length=100, blank=False)
 
     def __str__(self):
+        print("print self.title22: ", self.title)
         return self.title
 

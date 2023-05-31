@@ -12,7 +12,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from news_scrapy.items import ArticleItem
 import pytz
 from news_scrapy.settings import VNEXPRESS_SELECTORS
-
+import traceback
 
 class VnexpressSpider:
 
@@ -40,11 +40,19 @@ class VnexpressSpider:
 
     def parse(self):
         articles = self.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, VNEXPRESS_SELECTORS['article'])))
-        for article in articles:
-            article.click()
-            self.parse_article()
-            # Go back to the list of articles
-            self.driver.back()
+        
+        article_urls = [article.get_attribute('href') for article in articles]
+
+        print("print Number of article_urls44: ", len(article_urls))
+
+        try:
+            for article_url in article_urls:
+                self.driver.get(article_url)
+                self.parse_article()
+        except Exception as e:
+            logging.error("logging Error: %s", e)
+            print("print Error: ", e)
+            traceback.print_exc()
 
     def parse_article(self):
         item = ArticleItem()
