@@ -2,6 +2,9 @@ import scrapy
 from news_scrapy.settings import VNEXPRESS_SELECTORS
 from news_scrapy.items import ArticleItem
 import logging
+from datetime import datetime
+import pytz
+from dateutil.parser import parse
 
 
 class VnexpressSpider(scrapy.Spider):
@@ -19,6 +22,22 @@ class VnexpressSpider(scrapy.Spider):
         item["url"] = response.url
         item["content"] = response.css(VNEXPRESS_SELECTORS['content']).get()
         item["site"] = "vnexpress.net"
-        item["published_date"] = response.css(VNEXPRESS_SELECTORS['publication_date']).get()
+
+        raw_date = response.css(VNEXPRESS_SELECTORS['publication_date']).get()
+        parsed_date = self.parse_date(raw_date)
+        item["published_date"] = parsed_date
+
         item["author"] = response.css(VNEXPRESS_SELECTORS['author']).get()
         yield item
+
+    def parse_date(self, date_str):
+        # Remove the day of the week (e.g., 'Thứ tư, ')
+        date_str = date_str.split(", ")[1:]
+        # Rejoin the remaining parts
+        date_str = ", ".join(date_str)
+        # Replace the space between GMT and +7 with a plus sign
+        date_str = date_str.replace(" (GMT", "+").replace(")", "")
+        # Parse the date and time
+        dt = parse(date_str)
+        # Return the date in UTC
+        return dt.astimezone(pytz.UTC)

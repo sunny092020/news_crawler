@@ -110,6 +110,7 @@ VNEXPRESS_SELECTORS = {
     'title': 'h1.title-detail::text',
     'content': 'article.fck_detail',
     'publication_date': 'span.date::text',
+    'author': 'p.Normal strong::text',
 }
 
 DANTRI_SELECTORS = {
@@ -117,4 +118,5 @@ DANTRI_SELECTORS = {
     'title': 'h1.title-detail::text',
     'content': 'article.fck_detail',
     'publication_date': 'span.date::text',
+    'author': 'p.Normal strong::text',
 }
