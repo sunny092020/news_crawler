@@ -24,6 +24,8 @@ class VnexpressSpider(scrapy.Spider):
         item["site"] = "vnexpress.net"
 
         raw_date = response.css(VNEXPRESS_SELECTORS['publication_date']).get()
+        logging.debug("Raw date: %s", raw_date)
+
         parsed_date = self.parse_date(raw_date)
         item["published_date"] = parsed_date
 
@@ -35,8 +37,12 @@ class VnexpressSpider(scrapy.Spider):
         date_str = date_str.split(", ")[1:]
         # Rejoin the remaining parts
         date_str = ", ".join(date_str)
+
+        logging.debug("Date string: %s", date_str)
+
         # Replace the space between GMT and +7 with a plus sign
-        date_str = date_str.replace(" (GMT", "+").replace(")", "")
+        date_str = date_str.replace(" (GMT", "").replace(")", "")
+        
         # Parse the date and time
         dt = parse(date_str)
         # Return the date in UTC
