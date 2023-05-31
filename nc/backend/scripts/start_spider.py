@@ -1,4 +1,4 @@
-from news_scrapy.spiders.vnexpress import VnexpressSpiderSelenium
+from news_scrapy.spiders.vnexpress_selenium import VnexpressSpiderSelenium
 
 spider = VnexpressSpiderSelenium()
 spider.start_requests()  # start the scraping
