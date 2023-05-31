@@ -113,6 +113,7 @@ VNEXPRESS_SELECTORS = {
     "content": "article.fck_detail",
     "publication_date": "span.date::text",
     "author": "p.Normal strong::text",
+    "author_mail": "p.author_mail strong a::text",
 }
 
 DANTRI_SELECTORS = {

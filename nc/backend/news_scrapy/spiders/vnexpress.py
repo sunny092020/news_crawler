@@ -10,7 +10,9 @@ from dateutil.parser import parse
 class VnexpressSpider(scrapy.Spider):
     name = "vnexpress"
     allowed_domains = ["vnexpress.net"]
-    start_urls = ["http://vnexpress.net/"]
+    start_urls = [
+        "http://vnexpress.net/",
+    ]
 
     def parse(self, response):
         # Follow all links on the main_nav or nav_folder
@@ -47,7 +49,12 @@ class VnexpressSpider(scrapy.Spider):
         parsed_date = self.parse_date(raw_date)
         item["published_date"] = parsed_date
 
-        item["author"] = response.css(VNEXPRESS_SELECTORS["author"]).get()
+        # if author not exist in page, get author_mail
+        if response.css(VNEXPRESS_SELECTORS["author"]).get() is None:
+            item["author"] = response.css(VNEXPRESS_SELECTORS["author_mail"]).get()
+        else:
+            item["author"] = response.css(VNEXPRESS_SELECTORS["author"]).get()
+
         yield item
 
     def parse_date(self, date_str):
