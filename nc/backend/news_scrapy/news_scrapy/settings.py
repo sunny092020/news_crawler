@@ -6,6 +6,14 @@
 #     https://docs.scrapy.org/en/latest/topics/settings.html
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
+# Setting up django's project full path.**
+import sys
+sys.path.insert(0, '/home/app/web')
+
+# Setting up django's settings module name.
+import os
+os.environ['DJANGO_SETTINGS_MODULE'] = 'nc.settings'
+
 
 BOT_NAME = "news_scrapy"
 
@@ -62,9 +70,9 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    "news_scrapy.pipelines.NewsScrapyPipeline": 300,
-#}
+ITEM_PIPELINES = {
+   "news_scrapy.pipelines.NewsScrapyPipeline": 1,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

@@ -7,7 +7,11 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 
+from nc.news.models import Article
 
 class NewsScrapyPipeline:
     def process_item(self, item, spider):
+        article = Article(**item)
+        article.save()
+        print("Saved article: ", article)
         return item
