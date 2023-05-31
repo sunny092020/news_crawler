@@ -28,7 +28,9 @@ services:
     container_name: nc_backend
     command: gunicorn nc.wsgi:application --workers 2 --thread 3 --bind 0.0.0.0:8000 --reload
     volumes:
-      - ./backend:/home/app/web
+      - type: bind
+        source: ./backend
+        target: /home/app/web
     environment:
       - EXTERNAL_IP=127.0.0.1
       - POSTGRES_HOST=10.3.0.5

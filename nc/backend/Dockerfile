@@ -1,5 +1,30 @@
-# We're using the python image as a base
-FROM python:3.8-slim-buster
+FROM python:3 AS builder
+ENV PYTHONUNBUFFERED=1
+
+# create directory for the app user
+ENV HOME=/home/app
+ENV APP_HOME=$HOME/web
+
+RUN mkdir -p $HOME \
+    mkdir $APP_HOME \
+    mkdir $APP_HOME/staticfiles \
+    mkdir $APP_HOME/mediafiles
+
+WORKDIR $APP_HOME
+
+COPY ./requirements.txt $APP_HOME
+RUN pip install -r requirements.txt
+
+FROM python:3-slim
+
+EXPOSE 8000
+
+# create directory for the app user
+ENV HOME=/home/app
+ENV APP_HOME=$HOME/web
+
+COPY --from=builder $HOME $HOME
+COPY --from=builder /usr/local/ /usr/local/
 
 # Updating apt-get and installing required packages to install Google Chrome and Chromedriver
 RUN apt-get update \
@@ -19,19 +44,7 @@ RUN LATEST=`curl -sSL https://chromedriver.storage.googleapis.com/LATEST_RELEASE
   && chmod +x /usr/bin/chromedriver \
   && rm chromedriver_linux64.zip
 
-# Setting the Python Buffering: This sets Python’s stdin, stdout and stderr to be totally unbuffered.
-ENV PYTHONUNBUFFERED 1
+RUN ldconfig /usr/local/lib
+WORKDIR $APP_HOME
 
-# Setting the working directory in the container
-WORKDIR /app
-
-# Copying the requirements file to the Docker container
-COPY requirements.txt .
-
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copying the rest of the application to the Docker container
-COPY . .
-
-EXPOSE 8000
+COPY . $APP_HOME
