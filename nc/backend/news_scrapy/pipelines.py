@@ -12,4 +12,16 @@ class NewsScrapyPipeline:
     @staticmethod
     @sync_to_async
     def save_article(article):
-        article.save()
+        # update_or_create() will update the article if it already exists
+        # based on the unique URL field
+        Article.objects.update_or_create(
+            url=article.url,
+            defaults={
+                "title": article.title,
+                "author": article.author,
+                "published_date": article.published_date,
+                "content": article.content,
+                "site": article.site,
+            },
+        )
+
