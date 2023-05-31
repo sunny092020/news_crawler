@@ -1,49 +1,76 @@
-import scrapy
-from news_scrapy.settings import VNEXPRESS_SELECTORS
-from news_scrapy.items import ArticleItem
 import logging
+import time
 from datetime import datetime
-import pytz
 from dateutil.parser import parse
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from news_scrapy.items import ArticleItem
+import pytz
+from news_scrapy.settings import VNEXPRESS_SELECTORS
 
 
-class VnexpressSpider(scrapy.Spider):
-    name = "vnexpress"
-    allowed_domains = ["vnexpress.net"]
-    start_urls = ["http://vnexpress.net/"]
+class VnexpressSpider:
 
-    def parse(self, response):
-        for article in response.css(VNEXPRESS_SELECTORS['article']).getall():
-            yield response.follow(article, self.parse_article)
+    def __init__(self):
+        self.driver = None
+        self.wait = None
+        self.start_urls = "http://vnexpress.net/"
+        self.items = []
 
-    def parse_article(self, response):
+    def start_requests(self):
+        # Setup Chrome options
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")  # Ensure GUI is off
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+
+        # Set path to chromedriver as per your configuration
+        webdriver_service = Service('chromedriver')
+
+        self.driver = webdriver.Chrome(service=webdriver_service, options=chrome_options)
+        self.wait = WebDriverWait(self.driver, 10)
+
+        self.driver.get(self.start_urls)
+        self.parse()
+
+    def parse(self):
+        articles = self.wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, VNEXPRESS_SELECTORS['article'])))
+        for article in articles:
+            article.click()
+            self.parse_article()
+            # Go back to the list of articles
+            self.driver.back()
+
+    def parse_article(self):
         item = ArticleItem()
-        item["title"] = response.css(VNEXPRESS_SELECTORS['title']).get()
-        item["url"] = response.url
-        item["content"] = response.css(VNEXPRESS_SELECTORS['content']).get()
+
+        item["title"] = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, VNEXPRESS_SELECTORS['title']))).text
+        item["url"] = self.driver.current_url
+        item["content"] = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, VNEXPRESS_SELECTORS['content']))).text
         item["site"] = "vnexpress.net"
 
-        raw_date = response.css(VNEXPRESS_SELECTORS['publication_date']).get()
+        raw_date = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, VNEXPRESS_SELECTORS['publication_date']))).text
         logging.debug("Raw date: %s", raw_date)
 
         parsed_date = self.parse_date(raw_date)
         item["published_date"] = parsed_date
 
-        item["author"] = response.css(VNEXPRESS_SELECTORS['author']).get()
-        yield item
+        item["author"] = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, VNEXPRESS_SELECTORS['author']))).text
+        self.items.append(item)
 
     def parse_date(self, date_str):
-        # Remove the day of the week (e.g., 'Thứ tư, ')
         date_str = date_str.split(", ")[1:]
-        # Rejoin the remaining parts
         date_str = ", ".join(date_str)
-
         logging.debug("Date string: %s", date_str)
-
-        # Replace the space between GMT and +7 with a plus sign
         date_str = date_str.replace(" (GMT", "").replace(")", "")
-        
-        # Parse the date and time
         dt = parse(date_str)
-        # Return the date in UTC
         return dt.astimezone(pytz.UTC)
+
+    def close(self):
+        self.driver.quit()
+        return self.items
