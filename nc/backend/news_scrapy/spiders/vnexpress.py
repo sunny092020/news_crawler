@@ -55,20 +55,27 @@ class VnexpressSpider(scrapy.Spider):
         else:
             item["author"] = response.css(VNEXPRESS_SELECTORS["author"]).get()
 
+        item["summary"] = response.css(VNEXPRESS_SELECTORS["summary"]).get()
+
         yield item
 
     def parse_date(self, date_str):
-        # Remove the day of the week (e.g., 'Thứ tư, ')
-        date_str = date_str.split(", ")[1:]
-        # Rejoin the remaining parts
-        date_str = ", ".join(date_str)
+        try:
+            # Remove the day of the week (e.g., 'Thứ tư, ')
+            date_str = date_str.split(", ")[1:]
+            # Rejoin the remaining parts
+            date_str = ", ".join(date_str)
 
-        logging.debug("Date string: %s", date_str)
+            logging.debug("Date string: %s", date_str)
 
-        # Replace the space between GMT and +7 with a plus sign
-        date_str = date_str.replace(" (GMT", "").replace(")", "")
+            # Replace the space between GMT and +7 with a plus sign
+            date_str = date_str.replace(" (GMT", "").replace(")", "")
 
-        # Parse the date and time
-        dt = parse(date_str)
-        # Return the date in UTC
-        return dt.astimezone(pytz.UTC)
+            # Parse the date and time
+            dt = parse(date_str)
+            # Return the date in UTC
+            return dt.astimezone(pytz.UTC)
+        except Exception as e:
+            logging.error("Error parsing date: %s", e)
+            today = datetime.now()
+            return today

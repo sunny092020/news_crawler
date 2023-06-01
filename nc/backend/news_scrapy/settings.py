@@ -114,6 +114,7 @@ VNEXPRESS_SELECTORS = {
     "publication_date": "span.date::text",
     "author": "p.Normal strong::text",
     "author_mail": "p.author_mail strong a::text",
+    "summary": "p.description::text",
 }
 
 DANTRI_SELECTORS = {

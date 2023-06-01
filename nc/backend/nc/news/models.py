@@ -19,12 +19,16 @@ class Article(models.Model):
     content = models.TextField(blank=False, null=False)
     site = models.CharField(max_length=100, blank=False)
     thumbnail = models.URLField(max_length=500, blank=True, null=True)
+    summary = models.TextField(blank=False, null=False)
 
     def __str__(self):
         print("print self.title22: ", self.title)
         return self.title
-
+    
     def get_thumbnail_from_content(self):
+        if self.content is None:
+            return settings.DEFAULT_THUMBNAIL_URL
+
         # Create a BeautifulSoup object from the content
         soup = BeautifulSoup(self.content, features="html.parser")
 

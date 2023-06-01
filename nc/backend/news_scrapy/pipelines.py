@@ -26,5 +26,6 @@ class NewsScrapyPipeline:
                 "content": article.content,
                 "site": article.site,
                 "thumbnail": article.thumbnail,
+                "summary": article.summary,
             },
         )

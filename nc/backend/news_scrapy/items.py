@@ -13,3 +13,4 @@ class ArticleItem(scrapy.Item):
     site = scrapy.Field()
     published_date = scrapy.Field()
     author = scrapy.Field()
+    summary = scrapy.Field()
