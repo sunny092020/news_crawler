@@ -1,6 +1,7 @@
 // src/Header.tsx
 import React, { useEffect, useState } from 'react';
 import './Header.css';
+import { Link } from 'react-router-dom';
 
 interface Category {
   id: number;
@@ -18,11 +19,12 @@ const Header = () => {
 
   return (
     <header className="header">
+      <h1>Welcome to My App</h1>
       <nav className="nav">
         <ul>
           {categories.map((category) => (
             <li key={category.id}>
-              <a href={`/${category.name}`}>{category.name}</a>
+              <Link to={`/category/${category.id}`}>{category.name}</Link>
             </li>
           ))}
         </ul>
