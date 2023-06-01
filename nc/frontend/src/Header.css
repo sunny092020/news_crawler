@@ -1,0 +1,30 @@
+/* Header.css */
+.header {
+  background-color: #282c34;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.nav {
+  margin: 20px 0;
+}
+
+.nav ul {
+  list-style-type: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.nav li {
+  margin: 0 15px;
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+}
