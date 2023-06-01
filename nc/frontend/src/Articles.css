@@ -1,0 +1,31 @@
+/* src/Articles.css */
+.article-item {
+  display: flex;
+  align-items: start;
+  margin-bottom: 20px;
+}
+
+.article-thumbnail {
+  width: 80px;
+  height: 80px;
+  margin-right: 15px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.article-info {
+  display: flex;
+  align-items: center; /* Align title and date on the same line */
+}
+
+.article-title {
+  margin: 0;
+  margin-right: 10px; /* Add some space between the title and the date */
+}
+
+.article-date {
+  margin: 0;
+  font-size: 0.8em;
+  color: #777;
+}
