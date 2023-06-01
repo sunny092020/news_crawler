@@ -50,6 +50,29 @@ services:
       nc_network:
         ipv4_address: 10.3.0.7
 
+  nc_frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    container_name: nc_frontend
+    entrypoint: bash -c "yarn && yarn start"
+    volumes:
+      - ./frontend/src:/app/src
+      - type: bind
+        source: ./frontend/package.json
+        target: /app/package.json
+    environment:
+      - REACT_APP_API_BASE_URL=http://10.3.0.7:8000/api/v1
+      - REACT_APP_TIME_OUT=25000
+    ports:
+      - 3000:3000
+    depends_on:
+      - nc_backend
+    restart: always
+    networks:
+      nc_network:
+        ipv4_address: 10.3.0.6
+
 networks:
   nc_network:
     driver: bridge

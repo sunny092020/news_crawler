@@ -41,10 +41,10 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = get_bool_from_env("DEBUG", True)
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "::1", "10.7.0.7", "10.7.0.6", "*"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "::1", "10.3.0.7", "10.3.0.6", "*"]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://10.7.0.6:3000",
+    "http://10.3.0.6:3000",
     "http://127.0.0.1:3000",
     "http://localhost:3000",
 ]
