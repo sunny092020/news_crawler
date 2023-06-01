@@ -117,11 +117,15 @@ VNEXPRESS_SELECTORS = {
 }
 
 DANTRI_SELECTORS = {
-    "article": "div.title-news a::attr(href)",
-    "title": "h1.title-detail::text",
-    "content": "article.fck_detail",
-    "publication_date": "span.date::text",
-    "author": "p.Normal strong::text",
+    "main_nav": "nav[role='navigation'] ol li a::attr(href)",
+    "sub_nav": "nav[role='navigation'] ol li ol.submenu li a::attr(href)",
+    "nav_folder": "ul.breadcrumbs li a::attr(href)",
+    "article": ".article-title a::attr(href)",
+    "title": "h1.title-page::text",
+    "content": "div.singular-content",
+    "publication_date": "time.author-time::attr(datetime)",
+    "author": "div.author-name a b::text",
+    "summary": "h2.singular-sapo::text",
 }
 
-DEPTH_LIMIT = 2
+DEPTH_LIMIT = 1
