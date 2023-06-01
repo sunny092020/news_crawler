@@ -2,7 +2,7 @@ import scrapy
 from news_scrapy.settings import DANTRI_SELECTORS
 from news_scrapy.items import ArticleItem
 import logging
-from dateutil.parser import parse
+from news_scrapy.settings import DANTRI_CATEGORY_MAPPING, FALLBACK_CATEGORY
 
 
 class DantriSpider(scrapy.Spider):
@@ -50,5 +50,13 @@ class DantriSpider(scrapy.Spider):
 
         item["author"] = response.css(DANTRI_SELECTORS["author"]).get()
         item["summary"] = response.css(DANTRI_SELECTORS["summary"]).get()
+
+        raw_category = response.css(DANTRI_SELECTORS["category"]).get()
+        logging.debug("Raw category: %s", raw_category)
+
+        internal_category_name = DANTRI_CATEGORY_MAPPING.get(raw_category, FALLBACK_CATEGORY)
+        logging.debug("Internal category: %s", internal_category_name)
+
+        item["category"] = internal_category_name
 
         yield item

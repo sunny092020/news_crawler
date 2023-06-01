@@ -122,6 +122,7 @@ DANTRI_SELECTORS = {
     "main_nav": "nav[role='navigation'] ol li a::attr(href)",
     "sub_nav": "nav[role='navigation'] ol li ol.submenu li a::attr(href)",
     "nav_folder": "ul.breadcrumbs li a::attr(href)",
+    "category": "ul.breadcrumbs li a::attr(title)",
     "article": ".article-title a::attr(href)",
     "title": "h1.title-page::text",
     "content": "div.singular-content",
@@ -130,7 +131,7 @@ DANTRI_SELECTORS = {
     "summary": "h2.singular-sapo::text",
 }
 
-DEPTH_LIMIT = 2
+DEPTH_LIMIT = 1
 
 VNEXPRESS_CATEGORY_MAPPING = {
     "Menu-ThoiSu": "Thời sự",
@@ -144,6 +145,20 @@ VNEXPRESS_CATEGORY_MAPPING = {
     "Menu-DoiSong": "Đời sống",
     "Menu-DuLich": "Du lịch",
     "Menu-KhoaHoc": "Khoa học",
+}
+
+DANTRI_CATEGORY_MAPPING = {
+    "Xã hội": "Thời sự",
+    "Thế giới": "Thế giới",
+    "Kinh doanh": "Kinh doanh",
+    "Giải trí": "Giải trí",
+    "Thể thao": "Thể thao",
+    "Pháp luật": "Pháp luật",
+    "Giáo dục - Hướng nghiệp": "Giáo dục",
+    "Sức khỏe": "Sức khỏe",
+    "An sinh": "Đời sống",
+    "Văn hóa": "Du lịch",
+    "Khoa học - Công nghệ": "Khoa học",
 }
 
 FALLBACK_CATEGORY = "Khác"
