@@ -131,8 +131,6 @@ DANTRI_SELECTORS = {
     "summary": "h2.singular-sapo::text",
 }
 
-DEPTH_LIMIT = 1
-
 VNEXPRESS_CATEGORY_MAPPING = {
     "Menu-ThoiSu": "Thời sự",
     "Menu-TheGioi": "Thế giới",

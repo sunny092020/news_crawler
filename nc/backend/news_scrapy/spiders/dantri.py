@@ -11,6 +11,9 @@ class DantriSpider(scrapy.Spider):
     start_urls = [
         "https://dantri.com.vn/",
     ]
+    custom_settings = {
+        "DEPTH_LIMIT": 1,
+    }
 
     def parse(self, response):
         # Follow all links on the main_nav or nav_folder

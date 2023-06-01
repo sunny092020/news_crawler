@@ -14,6 +14,9 @@ class VnexpressSpider(scrapy.Spider):
     start_urls = [
         "http://vnexpress.net/",
     ]
+    custom_settings = {
+        "DEPTH_LIMIT": 2,
+    }
 
     def parse(self, response):
         # Follow all links on the main_nav or nav_folder
