@@ -159,6 +159,9 @@ DANTRI_CATEGORY_MAPPING = {
     "An sinh": "Đời sống",
     "Văn hóa": "Du lịch",
     "Khoa học - Công nghệ": "Khoa học",
+    "Bạn đọc": "Đời sống",
+    "Sức mạnh số": "Khoa học",
+    "Lao động - Việc làm": "Kinh doanh",
 }
 
 FALLBACK_CATEGORY = "Khác"
