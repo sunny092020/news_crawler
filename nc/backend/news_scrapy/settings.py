@@ -106,6 +106,7 @@ FEED_EXPORT_ENCODING = "utf-8"
 
 VNEXPRESS_SELECTORS = {
     "main_nav": "nav.main-nav ul.parent li a::attr(href)",
+    "sub_nav": "nav.main-nav ul.parent li ul.sub li a::attr(href)",
     "nav_folder": "nav.nav-folder ul.ul-nav-folder li a::attr(href)",
     "article": ".title_news a::attr(href)",
     "title": "h1.title-detail::text",
@@ -128,4 +129,4 @@ DANTRI_SELECTORS = {
     "summary": "h2.singular-sapo::text",
 }
 
-DEPTH_LIMIT = 1
+DEPTH_LIMIT = 2
