@@ -11,3 +11,8 @@ class ArticleList(generics.ListAPIView):
     filter_backends = [SearchFilter, DjangoFilterBackend]
     search_fields = ["category__id"]
     filterset_fields = ["category__id"]
+
+
+class ArticleDetail(generics.RetrieveAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
