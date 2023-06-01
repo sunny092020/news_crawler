@@ -1,8 +1,5 @@
 from django.db import models
 from django.conf import settings
-from dateutil.relativedelta import relativedelta
-from botocore.exceptions import ClientError
-from django.utils import timezone
 import logging
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
@@ -24,7 +21,7 @@ class Article(models.Model):
     def __str__(self):
         print("print self.title22: ", self.title)
         return self.title
-    
+
     def get_thumbnail_from_content(self):
         if self.content is None:
             return settings.DEFAULT_THUMBNAIL_URL

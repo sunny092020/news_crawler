@@ -1,5 +1,4 @@
 from asgiref.sync import sync_to_async
-from itemadapter import ItemAdapter
 from nc.news.models import Article
 
 
