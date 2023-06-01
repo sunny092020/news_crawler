@@ -1,12 +1,13 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework import status
+from rest_framework import generics
+from .models import Article
+from .serializers import ArticleSerializer
+from rest_framework.filters import SearchFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
-from django.db import transaction
-from django.db.models import Q
-from django.utils import timezone
-import logging
 
-logger = logging.getLogger(__name__)
+class ArticleList(generics.ListAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+    filter_backends = [SearchFilter, DjangoFilterBackend]
+    search_fields = ["category__id"]
+    filterset_fields = ["category__id"]
