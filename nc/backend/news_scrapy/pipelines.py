@@ -13,6 +13,8 @@ class NewsScrapyPipeline:
     @staticmethod
     @sync_to_async
     def save_article(article):
+        article.thumbnail = article.get_thumbnail_from_content()
+
         # update_or_create() will update the article if it already exists
         # based on the unique URL field
         Article.objects.update_or_create(
@@ -23,5 +25,6 @@ class NewsScrapyPipeline:
                 "published_date": article.published_date,
                 "content": article.content,
                 "site": article.site,
+                "thumbnail": article.thumbnail,
             },
         )

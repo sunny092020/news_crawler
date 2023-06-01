@@ -20,3 +20,4 @@ scrapy==2.8.0
 asgiref==3.7.2
 python-dateutil==2.8.2
 selenium==4.4.0
+beautifulsoup4==4.12.2
