@@ -130,3 +130,17 @@ DANTRI_SELECTORS = {
 }
 
 DEPTH_LIMIT = 2
+
+VNEXPRESS_CATEGORY_MAPPING = {
+    "thoi-su": "Thời sự",
+    "the-gioi": "Thế giới",
+    "kinh-doanh": "Kinh doanh",
+    "giai-tri": "Giải trí",
+    "the-thao": "Thể thao",
+    "phap-luat": "Pháp luật",
+    "giao-duc": "Giáo dục",
+    "suc-khoe": "Sức khỏe",
+    "doi-song": "Đời sống",
+    "du-lich": "Du lịch",
+    "khoa-hoc": "Khoa học",
+}

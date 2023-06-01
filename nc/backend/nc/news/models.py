@@ -17,6 +17,7 @@ class Article(models.Model):
     site = models.CharField(max_length=100, blank=False)
     thumbnail = models.URLField(max_length=500, blank=True, null=True)
     summary = models.TextField(blank=False, null=False)
+    category = models.ForeignKey("Category", on_delete=models.CASCADE)
 
     def __str__(self):
         print("print self.title22: ", self.title)
@@ -64,3 +65,9 @@ class Article(models.Model):
 
         # If no image is found, return the default thumbnail
         return settings.DEFAULT_THUMBNAIL_URL
+
+class Category(models.Model):
+    name = models.CharField(max_length=100, blank=False, unique=True)
+
+    def __str__(self):
+        return self.name
