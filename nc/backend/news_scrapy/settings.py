@@ -108,6 +108,7 @@ VNEXPRESS_SELECTORS = {
     "main_nav": "nav.main-nav ul.parent li a::attr(href)",
     "sub_nav": "nav.main-nav ul.parent li ul.sub li a::attr(href)",
     "nav_folder": "ul.breadcrumbs li a::attr(href)",
+    "category": "ul.breadcrumb li a::attr(data-medium)",
     "article": ".title_news a::attr(href)",
     "title": "h1.title-detail::text",
     "content": "article.fck_detail",
@@ -132,15 +133,17 @@ DANTRI_SELECTORS = {
 DEPTH_LIMIT = 2
 
 VNEXPRESS_CATEGORY_MAPPING = {
-    "thoi-su": "Thời sự",
-    "the-gioi": "Thế giới",
-    "kinh-doanh": "Kinh doanh",
-    "giai-tri": "Giải trí",
-    "the-thao": "Thể thao",
-    "phap-luat": "Pháp luật",
-    "giao-duc": "Giáo dục",
-    "suc-khoe": "Sức khỏe",
-    "doi-song": "Đời sống",
-    "du-lich": "Du lịch",
-    "khoa-hoc": "Khoa học",
+    "Menu-ThoiSu": "Thời sự",
+    "Menu-TheGioi": "Thế giới",
+    "Menu-KinhDoanh": "Kinh doanh",
+    "Menu-GiaiTri": "Giải trí",
+    "Menu-TheThao": "Thể thao",
+    "Menu-PhapLuat": "Pháp luật",
+    "Menu-GiaoDuc": "Giáo dục",
+    "Menu-SucKhoe": "Sức khỏe",
+    "Menu-DoiSong": "Đời sống",
+    "Menu-DuLich": "Du lịch",
+    "Menu-KhoaHoc": "Khoa học",
 }
+
+FALLBACK_CATEGORY = "Khác"

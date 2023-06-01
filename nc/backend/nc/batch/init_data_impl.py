@@ -1,5 +1,6 @@
 from nc.news.models import Category
 
+
 def copy_to_postgresql():
     print("copy_to_postgresql")
 
@@ -15,7 +16,7 @@ def copy_to_postgresql():
         "Đời sống",
         "Du lịch",
         "Khoa học",
-        "Khác"
+        "Khác",
     ]
 
     for categorie_name in categorie_names:

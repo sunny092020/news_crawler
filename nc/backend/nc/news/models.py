@@ -66,6 +66,7 @@ class Article(models.Model):
         # If no image is found, return the default thumbnail
         return settings.DEFAULT_THUMBNAIL_URL
 
+
 class Category(models.Model):
     name = models.CharField(max_length=100, blank=False, unique=True)
 

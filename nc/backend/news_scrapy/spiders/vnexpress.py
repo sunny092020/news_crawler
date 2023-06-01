@@ -5,6 +5,7 @@ import logging
 from datetime import datetime
 import pytz
 from dateutil.parser import parse
+from news_scrapy.settings import VNEXPRESS_CATEGORY_MAPPING, FALLBACK_CATEGORY
 
 
 class VnexpressSpider(scrapy.Spider):
@@ -56,6 +57,14 @@ class VnexpressSpider(scrapy.Spider):
             item["author"] = response.css(VNEXPRESS_SELECTORS["author"]).get()
 
         item["summary"] = response.css(VNEXPRESS_SELECTORS["summary"]).get()
+
+        raw_category = response.css(VNEXPRESS_SELECTORS["category"]).get()
+
+        internal_category_name = VNEXPRESS_CATEGORY_MAPPING.get(
+            raw_category, FALLBACK_CATEGORY
+        )
+
+        item["category"] = internal_category_name
 
         yield item
 
