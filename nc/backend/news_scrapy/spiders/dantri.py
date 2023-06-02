@@ -3,6 +3,9 @@ from news_scrapy.settings import DANTRI_SELECTORS
 from news_scrapy.items import ArticleItem
 import logging
 from news_scrapy.settings import DANTRI_CATEGORY_MAPPING, FALLBACK_CATEGORY
+from dateutil.parser import parse
+import datetime
+import pytz
 
 
 class DantriSpider(scrapy.Spider):
@@ -49,7 +52,9 @@ class DantriSpider(scrapy.Spider):
         item["content"] = response.css(DANTRI_SELECTORS["content"]).get()
         item["site"] = self.name
 
-        item["published_date"] = response.css(DANTRI_SELECTORS["publication_date"]).get()
+        item["published_date"] = parse_datetime(
+            response.css(DANTRI_SELECTORS["publication_date"]).get()
+        )
 
         item["author"] = response.css(DANTRI_SELECTORS["author"]).get()
         item["summary"] = response.css(DANTRI_SELECTORS["summary"]).get()
@@ -63,3 +68,10 @@ class DantriSpider(scrapy.Spider):
         item["category"] = internal_category_name
 
         yield item
+
+
+def parse_datetime(date_str):
+    if date_str == "" or date_str is None:
+        # return now with timezone
+        return datetime.datetime.now(pytz.utc)
+    return parse(date_str)
