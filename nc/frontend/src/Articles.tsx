@@ -29,6 +29,7 @@ const Articles = () => {
                   <h3 className="article-title">{article.title}</h3>
                 </Link>
                 <p className="article-date">{new Date(article.published_date).toLocaleDateString()}</p>
+                <p className="article-site">{article.site}</p>  {/* Display the site */}
               </div>
               <p>{article.summary}</p>
             </div>

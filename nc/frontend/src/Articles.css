@@ -27,4 +27,13 @@
   margin: 0;
   font-size: 0.8em;
   color: #777;
+  margin-right: 0.5em;
+}
+
+.article-site {
+  font-size: 0.9em;
+  margin-top: 0.5em;
+  color: #666;
+  text-decoration: underline;
+  margin-left: 0.5em;
 }

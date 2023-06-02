@@ -47,7 +47,7 @@ class DantriSpider(scrapy.Spider):
         item["title"] = response.css(DANTRI_SELECTORS["title"]).get()
         item["url"] = response.url
         item["content"] = response.css(DANTRI_SELECTORS["content"]).get()
-        item["site"] = "vnexpress.net"
+        item["site"] = self.name
 
         item["published_date"] = response.css(DANTRI_SELECTORS["publication_date"]).get()
 

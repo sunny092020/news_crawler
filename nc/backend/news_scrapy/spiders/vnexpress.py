@@ -45,7 +45,7 @@ class VnexpressSpider(scrapy.Spider):
         item["title"] = response.css(VNEXPRESS_SELECTORS["title"]).get()
         item["url"] = response.url
         item["content"] = response.css(VNEXPRESS_SELECTORS["content"]).get()
-        item["site"] = "vnexpress.net"
+        item["site"] = self.name
 
         raw_date = response.css(VNEXPRESS_SELECTORS["publication_date"]).get()
         logging.debug("Raw date: %s", raw_date)
