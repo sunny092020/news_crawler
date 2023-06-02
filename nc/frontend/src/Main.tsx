@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Articles from './Articles';
-import ArticleDetail from './ArticleDetail';
+import Articles from './pages/Articles';
+import ArticleDetail from './pages/ArticleDetail';
 
 const Main = () => (
   <Switch>
