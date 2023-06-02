@@ -38,7 +38,7 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 1
+DOWNLOAD_DELAY = 0
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
@@ -107,15 +107,16 @@ FEED_EXPORT_ENCODING = "utf-8"
 VNEXPRESS_SELECTORS = {
     "main_nav": "nav.main-nav ul.parent li a::attr(href)",
     "sub_nav": "nav.main-nav ul.parent li ul.sub li a::attr(href)",
-    "nav_folder": "ul.breadcrumbs li a::attr(href)",
-    "category": "ul.breadcrumb li a::attr(data-medium)",
     "article": ".title_news a::attr(href)",
-    "title": "h1.title-detail::text",
+    "nav_folder": "ul.breadcrumbs li a::attr(href), p.cat_time a::attr(href)",
+    "category": "ul.breadcrumb li a::attr(data-medium), p.cat_time a::attr(title)",
+    "title": "h1.title-detail::text, h1.title::text",
     "content": "article.fck_detail",
-    "publication_date": "span.date::text",
+    "video_content": "div[id='videoContainter']",
+    "publication_date": "span.date::text, p.cat_time span.time::text",
     "author": "p.Normal strong::text",
-    "author_mail": "p.author_mail strong a::text",
-    "summary": "p.description::text",
+    "author_mail": "p.author_mail strong a::text, p.author span::text",
+    "summary": "p.description::text, div.lead_detail::text",
 }
 
 DANTRI_SELECTORS = {
@@ -165,4 +166,4 @@ DANTRI_CATEGORY_MAPPING = {
 FALLBACK_CATEGORY = "Khác"
 
 # Configure logging level
-LOG_LEVEL = 'ERROR'
+LOG_LEVEL = "ERROR"
