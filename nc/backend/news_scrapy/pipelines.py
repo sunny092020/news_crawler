@@ -36,3 +36,4 @@ class NewsScrapyPipeline:
             )
         except Exception as e:
             logging.error("Error when saving article: %s", e)
+            logging.error("Article: %s", article.url)
