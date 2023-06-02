@@ -4,6 +4,8 @@
 # https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+from nc.news.models import Article
+from scrapy.exceptions import IgnoreRequest
 
 
 class NewsScrapySpiderMiddleware:
@@ -75,6 +77,11 @@ class NewsScrapyDownloaderMiddleware:
         # - or return a Request object
         # - or raise IgnoreRequest: process_exception() methods of
         #   installed downloader middleware will be called
+
+        url = request.url
+        if Article.objects.filter(url=url).exists():
+            raise IgnoreRequest("URL already crawled.")
+
         return None
 
     def process_response(self, request, response, spider):
