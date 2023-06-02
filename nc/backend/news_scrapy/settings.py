@@ -124,11 +124,11 @@ DANTRI_SELECTORS = {
     "nav_folder": "ul.breadcrumbs li a::attr(href)",
     "category": "ul.breadcrumbs li a::attr(title)",
     "article": ".article-title a::attr(href)",
-    "title": "h1.title-page::text, h1.e-magazine__title::text, div.e-magazine__body h3::text",
+    "title": "h1.title-page::text, h1.e-magazine__title::text, div.e-magazine__body .align-center::text",
     "content": "div.singular-content, div.e-magazine__body",
     "publication_date": "time.author-time::attr(datetime), div.e-magazine__body p.text-right em::text",
     "author": "div.author-name a b::text, div.e-magazine__body p[style='text-align:right'] strong::text",
-    "summary": "h2.singular-sapo::text, h1.e-magazine__title::text, div.e-magazine__body p strong::text",
+    "summary": "h2.singular-sapo::text, h1.e-magazine__title::text, div.e-magazine__body p strong::text, div.e-magazine__body p em::text",
 }
 
 VNEXPRESS_CATEGORY_MAPPING = {
