@@ -30,6 +30,7 @@ const Articles = () => {
                 </Link>
                 <p className="article-date">{new Date(article.published_date).toLocaleString()}</p>
                 <p className="article-site">{article.site}</p>
+                <a href={article.url} target="_blank" rel="noopener noreferrer" className="article-link">Sang trang gốc</a>
               </div>
               <p>{article.summary}</p>
             </div>
