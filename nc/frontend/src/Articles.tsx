@@ -23,7 +23,6 @@ const Articles = () => {
 
   return (
     <main>
-      <h2>Articles</h2>
       <ul>
         {articles.map((article) => (
           <li key={article.id} className="article-item">
