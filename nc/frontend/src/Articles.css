@@ -1,4 +1,3 @@
-/* src/Articles.css */
 .article-item {
   display: flex;
   align-items: start;
@@ -16,12 +15,12 @@
 
 .article-info {
   display: flex;
-  align-items: center; /* Align title and date on the same line */
+  align-items: center;
 }
 
 .article-title {
   margin: 0;
-  margin-right: 10px; /* Add some space between the title and the date */
+  margin-right: 10px;
 }
 
 .article-date {
