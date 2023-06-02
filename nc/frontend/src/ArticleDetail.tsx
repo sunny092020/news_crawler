@@ -27,14 +27,18 @@ const ArticleDetail = () => {
   useEffect(() => {
     fetch(`http://10.3.0.7:8000/api/v1/articles/${id}/`)
       .then(response => response.json())
-      .then(data => setArticle(data));
+      .then(data => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data.content, 'text/html');
+        doc.querySelectorAll('img').forEach(img => {
+          img.src = img.getAttribute('data-src')!;
+        });
+        data.content = doc.body.innerHTML;
+        setArticle(data);
+      });
   }, [id]);
 
-  if (!article) {
-    return <div>Loading...</div>;
-  }
-
-  return (
+  return article ? (
     <main className="article-detail">
       <h2>{article.title}</h2>
       <p>By {article.author}</p>
@@ -42,7 +46,7 @@ const ArticleDetail = () => {
       <p>{article.summary}</p>
       <div className="content" dangerouslySetInnerHTML={{ __html: article.content }} />
     </main>
-  );  
+  ) : null;
 };
 
 export default ArticleDetail;
