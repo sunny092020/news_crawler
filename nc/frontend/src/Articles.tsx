@@ -11,8 +11,11 @@ const Articles = () => {
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_BASE_URL}/articles?category__id=${categoryId}`)
       .then(response => response.json())
-      .then(data => setArticles(data.results));
-  }, [categoryId]);
+      .then(data => setArticles(data.results))
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, [categoryId]);  
 
   return (
     <main>

@@ -18,9 +18,12 @@ const ArticleDetail = () => {
         });
         data.content = doc.body.innerHTML;
         setArticle(data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
       });
-  }, [id]);  
-
+  }, [id]);
+  
   return article ? (
     <main className="article-detail">
       <h2>{article.title}</h2>

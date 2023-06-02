@@ -10,8 +10,11 @@ const Header = () => {
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_BASE_URL}/categories/`)
       .then(response => response.json())
-      .then(data => setCategories(data));
-  }, []);
+      .then(data => setCategories(data))
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, []);  
 
   return (
     <header className="header">
