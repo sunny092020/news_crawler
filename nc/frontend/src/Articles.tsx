@@ -9,7 +9,7 @@ const Articles = () => {
   const [articles, setArticles] = useState<Article[]>([]);
 
   useEffect(() => {
-    fetch(`http://10.3.0.7:8000/api/v1/articles?category__id=${categoryId}`)
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/articles?category__id=${categoryId}`)
       .then(response => response.json())
       .then(data => setArticles(data.results));
   }, [categoryId]);

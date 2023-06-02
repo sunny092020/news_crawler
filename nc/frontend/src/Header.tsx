@@ -8,7 +8,7 @@ const Header = () => {
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
-    fetch('http://10.3.0.7:8000/api/v1/categories/')
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/categories/`)
       .then(response => response.json())
       .then(data => setCategories(data));
   }, []);

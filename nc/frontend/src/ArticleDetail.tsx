@@ -8,7 +8,7 @@ const ArticleDetail = () => {
   const [article, setArticle] = useState<Article | null>(null);
 
   useEffect(() => {
-    fetch(`http://10.3.0.7:8000/api/v1/articles/${id}/`)
+    fetch(`${process.env.REACT_APP_API_BASE_URL}/articles/${id}/`)
       .then(response => response.json())
       .then(data => {
         const parser = new DOMParser();
@@ -19,7 +19,7 @@ const ArticleDetail = () => {
         data.content = doc.body.innerHTML;
         setArticle(data);
       });
-  }, [id]);
+  }, [id]);  
 
   return article ? (
     <main className="article-detail">
