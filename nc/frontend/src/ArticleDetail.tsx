@@ -1,28 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './ArticleDetail.css';
-
-interface Category {
-  id: number;
-  name: string;
-}
-
-interface ArticleDetail {
-  id: number;
-  category: Category;
-  title: string;
-  url: string;
-  author: string;
-  published_date: string;
-  content: string;
-  site: string;
-  thumbnail: string;
-  summary: string;
-}
+import { Article } from './models/index';
 
 const ArticleDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const [article, setArticle] = useState<ArticleDetail | null>(null);
+  const [article, setArticle] = useState<Article | null>(null);
 
   useEffect(() => {
     fetch(`http://10.3.0.7:8000/api/v1/articles/${id}/`)

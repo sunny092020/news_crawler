@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import './Articles.css';
+import { Article } from './models/index';
 
-interface Article {
-  id: number;
-  title: string;
-  thumbnail: string;
-  summary: string;
-  published_date: string;
-}
 
 const Articles = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
