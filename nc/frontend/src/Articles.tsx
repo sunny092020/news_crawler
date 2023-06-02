@@ -1,6 +1,6 @@
 // src/Articles.tsx
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import './Articles.css';
 
 interface Article {
@@ -29,7 +29,9 @@ const Articles = () => {
             <img src={article.thumbnail} alt={article.title} className="article-thumbnail" />
             <div>
               <div className="article-info">
-                <h3 className="article-title">{article.title}</h3>
+                <Link to={`/article/${article.id}`}>
+                  <h3 className="article-title">{article.title}</h3>
+                </Link>
                 <p className="article-date">{new Date(article.published_date).toLocaleDateString()}</p>
               </div>
               <p>{article.summary}</p>

@@ -1,0 +1,28 @@
+.article-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+  max-width: 60%;
+  margin: 0 auto;
+}
+
+
+.article-detail img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 1em;
+}
+
+.article-detail h2 {
+  font-size: 2em;
+  margin-bottom: 0.5em;
+}
+
+.article-detail p {
+  margin-bottom: 1em;
+}
+
+.article-detail .content {
+  text-align: justify;
+}
