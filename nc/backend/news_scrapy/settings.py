@@ -165,4 +165,4 @@ DANTRI_CATEGORY_MAPPING = {
 FALLBACK_CATEGORY = "Khác"
 
 # Configure logging level
-LOG_LEVEL = "ERROR"
+LOG_LEVEL = "INFO"
