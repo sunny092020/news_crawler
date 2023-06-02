@@ -28,7 +28,7 @@ const ArticleDetail = () => {
     <main className="article-detail">
       <h2>{article.title}</h2>
       <p>By {article.author}</p>
-      <p>{new Date(article.published_date).toLocaleDateString()}</p>
+      <p>{new Date(article.published_date).toLocaleString()}</p>
       <p>{article.summary}</p>
       <div className="content" dangerouslySetInnerHTML={{ __html: article.content }} />
     </main>

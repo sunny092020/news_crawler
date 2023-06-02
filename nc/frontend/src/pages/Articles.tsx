@@ -28,7 +28,7 @@ const Articles = () => {
                 <Link to={`/article/${article.id}`}>
                   <h3 className="article-title">{article.title}</h3>
                 </Link>
-                <p className="article-date">{new Date(article.published_date).toLocaleDateString()}</p>
+                <p className="article-date">{new Date(article.published_date).toLocaleString()}</p>
                 <p className="article-site">{article.site}</p>
               </div>
               <p>{article.summary}</p>
