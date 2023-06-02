@@ -6,6 +6,7 @@ import { Category } from '../models/index';
 
 const Header = () => {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_BASE_URL}/categories/`)
@@ -22,7 +23,13 @@ const Header = () => {
         <ul>
           {categories.map((category) => (
             <li key={category.id}>
-              <Link to={`/category/${category.id}`}>{category.name}</Link>
+              <Link 
+                to={`/category/${category.id}`}
+                onClick={() => setSelectedCategoryId(category.id)}
+                className={category.id === selectedCategoryId ? 'selected' : ''}
+              >
+                {category.name}
+              </Link>
             </li>
           ))}
         </ul>
