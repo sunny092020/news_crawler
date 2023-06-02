@@ -56,16 +56,10 @@ class VnexpressSpider(scrapy.Spider):
         parsed_date = self.parse_date(raw_date)
         item["published_date"] = parsed_date
 
-        # if author not exist in page, get author_mail
-        if response.css(VNEXPRESS_SELECTORS["author"]).get() is None:
-            item["author"] = response.css(VNEXPRESS_SELECTORS["author_mail"]).get()
-        else:
-            item["author"] = response.css(VNEXPRESS_SELECTORS["author"]).get()
-
+        item["author"] = response.css(VNEXPRESS_SELECTORS["author"]).get()
         item["summary"] = response.css(VNEXPRESS_SELECTORS["summary"]).get()
 
         raw_category = response.css(VNEXPRESS_SELECTORS["category"]).get()
-
         internal_category_name = VNEXPRESS_CATEGORY_MAPPING.get(
             raw_category, FALLBACK_CATEGORY
         )
