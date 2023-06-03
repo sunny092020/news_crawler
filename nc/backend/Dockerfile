@@ -26,23 +26,13 @@ ENV APP_HOME=$HOME/web
 COPY --from=builder $HOME $HOME
 COPY --from=builder /usr/local/ /usr/local/
 
-# Updating apt-get and installing required packages to install Google Chrome and Chromedriver
 RUN apt-get update \
-  && apt-get install -y curl unzip gnupg
+  && apt-get install -y curl unzip gnupg wget
 
-# Chrome browser to get the proper user agent when making requests
-RUN curl -sSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o google-chrome-stable_current_amd64.deb \
-  && dpkg -i google-chrome-stable_current_amd64.deb; apt-get -fy install
-
-# Chromedriver to simulate a user in the selenium browser
-RUN LATEST=`curl -sSL https://chromedriver.storage.googleapis.com/LATEST_RELEASE` \
-  && echo "Installing chromium webdriver version ${LATEST}" \
-  && curl -sSL https://chromedriver.storage.googleapis.com/${LATEST}/chromedriver_linux64.zip -o chromedriver_linux64.zip \
-  && unzip chromedriver_linux64.zip \
-  && mv chromedriver /usr/bin/chromedriver \
-  && chown root:root /usr/bin/chromedriver \
-  && chmod +x /usr/bin/chromedriver \
-  && rm chromedriver_linux64.zip
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 RUN ldconfig /usr/local/lib
 WORKDIR $APP_HOME

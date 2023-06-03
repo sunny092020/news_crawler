@@ -17,6 +17,30 @@ services:
       nc_network:
         ipv4_address: 10.3.0.5
 
+  redis:
+    image: "redis:alpine"
+    container_name: nc_redis
+    networks:
+      nc_network:
+        ipv4_address: 10.3.0.8
+
+  celery_worker:
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+    container_name: nc_celery
+    command: bash -c "dockerize -wait tcp://nc_postgresql:5432 -timeout 1m && celery -A nc worker --loglevel=info"
+    volumes:
+      - type: bind
+        source: ./backend
+        target: /home/app/web
+    depends_on:
+      - nc_postgresql
+      - redis
+    networks:
+      nc_network:
+        ipv4_address: 10.3.0.9
+
   nc_backend:
     expose:
       - 8000
