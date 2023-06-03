@@ -1,21 +1,27 @@
 from celery import shared_task
-from django.core.exceptions import ValidationError
-from nc.news.models import Article
-from bulk_sync import bulk_sync
+from nc.news.models import Article, Category
 
-bulk_queue = []
 
 @shared_task
 def process_item(item):
-    bulk_queue.append(item)
-    
-    # If bulk_queue has 100 items, save them in a bulk operation
-    if len(bulk_queue) >= 100:
-        save_items()
+    internal_category_name = item["category"]
+    internal_category = Category.objects.filter(name=internal_category_name).first()
+    item["category"] = internal_category
+    article = Article(**item)
+    article.thumbnail = article.get_thumbnail_from_content()
 
-def save_items():
-    for item in bulk_queue:
-        print(item)
-
-    # Empty the queue
-    del bulk_queue[:]
+    # update_or_create() will update the article if it already exists
+    # based on the unique URL field
+    Article.objects.update_or_create(
+        url=article.url,
+        defaults={
+            "title": article.title,
+            "author": article.author,
+            "published_date": article.published_date,
+            "content": article.content,
+            "site": article.site,
+            "thumbnail": article.thumbnail,
+            "summary": article.summary,
+            "category": article.category,
+        },
+    )
