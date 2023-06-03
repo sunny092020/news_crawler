@@ -3,5 +3,5 @@
 reset
 echo "Start spider..."
 
-docker exec -it nc_backend bash -c "cd news_scrapy && scrapy crawl dantri"
-docker exec -it nc_backend bash -c "cd news_scrapy && scrapy crawl vnexpress"
+./start_vnexpress.sh
+./start_dantri.sh
