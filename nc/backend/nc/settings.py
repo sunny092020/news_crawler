@@ -177,7 +177,7 @@ LOGGING = {
     "disable_existing_loggers": False,
     "handlers": {
         "console": {
-            "level": "DEBUG",  # change to DEBUG to log sql
+            "level": "INFO",  # change to DEBUG to log sql
             "class": "logging.StreamHandler",
         },
     },

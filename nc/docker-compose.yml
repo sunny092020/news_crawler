@@ -39,7 +39,7 @@ services:
       - POSTGRES_DB=nc
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-      - DEBUG=True
+      - DEBUG=False
       - AWS_ACCESS_KEY_ID=<PLEASE_INPUT>
       - AWS_SECRET_ACCESS_KEY=<PLEASE_INPUT>
       - AWS_STORAGE_BUCKET_NAME=<PLEASE_INPUT>
@@ -73,7 +73,7 @@ services:
       - POSTGRES_DB=nc
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-      - DEBUG=True
+      - DEBUG=False
       - AWS_ACCESS_KEY_ID=<PLEASE_INPUT>
       - AWS_SECRET_ACCESS_KEY=<PLEASE_INPUT>
       - AWS_STORAGE_BUCKET_NAME=<PLEASE_INPUT>
