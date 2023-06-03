@@ -7,7 +7,7 @@ bulk_queue = []
 
 @shared_task
 def process_item(item):
-    bulk_queue.append(Article(**item))
+    bulk_queue.append(item)
     
     # If bulk_queue has 100 items, save them in a bulk operation
     if len(bulk_queue) >= 100:
