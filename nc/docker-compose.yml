@@ -79,6 +79,7 @@ services:
       - AWS_STORAGE_BUCKET_NAME=<PLEASE_INPUT>
       - AWS_S3_REGION_NAME=<PLEASE_INPUT>
       - SECRET_KEY=django-insecure
+      - CELERY_BROKER_URL=redis://nc_redis:6379/0
     restart: always
     depends_on:
       - nc_postgresql
