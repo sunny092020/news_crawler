@@ -17,26 +17,38 @@ services:
       nc_network:
         ipv4_address: 10.3.0.5
 
-  redis:
+  nc_redis:
     image: "redis:alpine"
     container_name: nc_redis
     networks:
       nc_network:
         ipv4_address: 10.3.0.8
 
-  celery_worker:
+  nc_celery_worker:
     build:
       context: ./backend
       dockerfile: ./Dockerfile
     container_name: nc_celery
-    command: bash -c "dockerize -wait tcp://nc_postgresql:5432 -timeout 1m && celery -A nc worker --loglevel=info"
+    command: bash -c "dockerize -wait tcp://nc_postgresql:5432 -timeout 1m && dockerize -wait tcp://nc_redis:6379 -timeout 1m && celery -A nc worker --loglevel=info"
     volumes:
       - type: bind
         source: ./backend
         target: /home/app/web
+    environment:
+      - POSTGRES_HOST=10.3.0.5
+      - POSTGRES_DB=nc
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - DEBUG=True
+      - AWS_ACCESS_KEY_ID=<PLEASE_INPUT>
+      - AWS_SECRET_ACCESS_KEY=<PLEASE_INPUT>
+      - AWS_STORAGE_BUCKET_NAME=<PLEASE_INPUT>
+      - AWS_S3_REGION_NAME=<PLEASE_INPUT>
+      - SECRET_KEY=django-insecure
+      - CELERY_BROKER_URL=redis://nc_redis:6379/0
     depends_on:
       - nc_postgresql
-      - redis
+      - nc_redis
     networks:
       nc_network:
         ipv4_address: 10.3.0.9

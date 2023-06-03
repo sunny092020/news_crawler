@@ -1,12 +1,13 @@
 from asgiref.sync import sync_to_async
 from nc.news.models import Article, Category
+from nc.news.tasks import process_item
 import logging
 
 
 class NewsScrapyPipeline:
-    async def process_item(self, item, spider):
+    def process_item(self, item, spider):
         logging.debug("Item: %s", item)
-        await self.save_article(item)
+        process_item.delay(dict(item))
         return item
 
     @staticmethod

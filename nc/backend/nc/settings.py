@@ -217,3 +217,6 @@ MAX_FILE_SIZE = 1024 * 1024 * 10  # 10MB
 DEFAULT_THUMBNAIL_URL = (
     "https://thegpsa.org/wp-content/uploads/2021/06/default-thumbnail-59.png"
 )
+
+# get CELERY_BROKER_URL from env
+CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")

@@ -24,3 +24,4 @@ beautifulsoup4==4.12.2
 django-filter==23.2.0
 celery==5.2.3
 redis==4.5.5
+django-bulk-sync==3.3.0
