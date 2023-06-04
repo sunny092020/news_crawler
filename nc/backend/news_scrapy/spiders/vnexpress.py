@@ -4,11 +4,10 @@ from news_scrapy.settings import (
     VNEXPRESS_CATEGORY_MAPPING,
     FALLBACK_CATEGORY,
 )
-import logging
-from dateutil.parser import parse
-import datetime
-import pytz
 from news_scrapy.items import ArticleItem
+from datetime import datetime
+from bs4 import BeautifulSoup
+import html
 
 
 class VnexpressSpider(scrapy.Spider):
@@ -26,27 +25,33 @@ class VnexpressSpider(scrapy.Spider):
         # Extract details from each article in a sub RSS feed
         for post in response.xpath("//item"):
             article_url = post.xpath("link/text()").get()
-            if article_url:
-                yield scrapy.Request(article_url, callback=self.parse_article)
+            title = html.unescape(post.xpath("title/text()").get())
+            description = html.unescape(extract_text(post.xpath("description/text()").get()))
+            pub_date = post.xpath("pubDate/text()").get()
 
-    def parse_article(self, response):
+            if article_url:
+                yield scrapy.Request(
+                    article_url,
+                    callback=self.parse_article,
+                    cb_kwargs={
+                        "title": title,
+                        "description": description,
+                        "pub_date": pub_date,
+                    },
+                )
+
+    def parse_article(self, response, title, description, pub_date):
         item = ArticleItem()
-        item["title"] = response.css(VNEXPRESS_SELECTORS["title"]).get()
+        item["title"] = title
         item["url"] = response.url
         item["content"] = (
             response.css(VNEXPRESS_SELECTORS["content"]).get()
             or response.css(VNEXPRESS_SELECTORS["video_content"]).get()
         )
         item["site"] = self.name
-
-        raw_date = response.css(VNEXPRESS_SELECTORS["publication_date"]).get()
-        logging.debug("Raw date: %s", raw_date)
-
-        parsed_date = self.parse_date(raw_date)
-        item["published_date"] = parsed_date
-
+        item["published_date"] = parse_datetime(pub_date)
         item["author"] = response.css(VNEXPRESS_SELECTORS["author"]).get()
-        item["summary"] = response.css(VNEXPRESS_SELECTORS["summary"]).get()
+        item["summary"] = description
 
         raw_category = response.css(VNEXPRESS_SELECTORS["category"]).get()
         internal_category_name = VNEXPRESS_CATEGORY_MAPPING.get(
@@ -57,23 +62,11 @@ class VnexpressSpider(scrapy.Spider):
 
         yield item
 
-    def parse_date(self, date_str):
-        try:
-            # Remove the day of the week (e.g., 'Thứ tư, ')
-            date_str = date_str.split(", ")[1:]
-            # Rejoin the remaining parts
-            date_str = ", ".join(date_str)
 
-            logging.debug("Date string: %s", date_str)
+def parse_datetime(date_string):
+    return datetime.strptime(date_string, "%a, %d %b %Y %H:%M:%S %z")
 
-            # Replace the space between GMT and +7 with a plus sign
-            date_str = date_str.replace(" (GMT", "").replace(")", "")
 
-            # Parse the date and time
-            dt = parse(date_str)
-            # Return the date in UTC
-            return dt.astimezone(pytz.UTC)
-        except Exception as e:
-            logging.error("Error parsing date: %s", e)
-            today = datetime.now()
-            return today
+def extract_text(description):
+    soup = BeautifulSoup(description, "lxml")
+    return soup.get_text()

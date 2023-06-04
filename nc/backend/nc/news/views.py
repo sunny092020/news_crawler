@@ -11,7 +11,7 @@ class ArticlePagination(PageNumberPagination):
 
 
 class ArticleList(generics.ListAPIView):
-    queryset = Article.objects.all().order_by("published_date")
+    queryset = Article.objects.all().order_by("-published_date")
     serializer_class = ArticleSerializer
     filter_backends = [SearchFilter, DjangoFilterBackend]
     search_fields = ["category__id"]
