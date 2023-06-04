@@ -9,8 +9,8 @@ logger = logging.getLogger(__name__)
 
 
 class Article(models.Model):
-    title = models.CharField(max_length=200, blank=False)
-    url = models.URLField(max_length=500, unique=True, blank=False, null=False)
+    title = models.TextField(blank=False, null=False)
+    url = models.TextField(unique=True, blank=False, null=False)
     author = models.CharField(max_length=100, null=True)
     published_date = models.DateTimeField(blank=False, null=False)
     content = models.TextField(blank=False, null=False)
