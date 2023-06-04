@@ -1,44 +1,33 @@
 import scrapy
-from news_scrapy.settings import VNEXPRESS_SELECTORS
-from news_scrapy.items import ArticleItem
+from news_scrapy.settings import (
+    VNEXPRESS_SELECTORS,
+    VNEXPRESS_CATEGORY_MAPPING,
+    FALLBACK_CATEGORY,
+)
 import logging
-from datetime import datetime
-import pytz
 from dateutil.parser import parse
-from news_scrapy.settings import VNEXPRESS_CATEGORY_MAPPING, FALLBACK_CATEGORY
+import datetime
+import pytz
+from news_scrapy.items import ArticleItem
 
 
 class VnexpressSpider(scrapy.Spider):
     name = "vnexpress"
     allowed_domains = ["vnexpress.net"]
-    start_urls = [
-        "http://vnexpress.net/",
-    ]
-    custom_settings = {
-        "DEPTH_LIMIT": 2,
-    }
+    start_urls = ["https://vnexpress.net/rss"]
 
     def parse(self, response):
-        # Follow all links on the main_nav or nav_folder
-        main_nav_links = response.css(VNEXPRESS_SELECTORS["main_nav"]).getall()
-        nav_folder_links = response.css(VNEXPRESS_SELECTORS["nav_folder"]).getall()
+        # Extract all sub RSS feed links
+        for href in response.xpath('//a[contains(@href, "rss")]/@href').getall():
+            url = response.urljoin(href)
+            yield scrapy.Request(url, callback=self.parse_rss)
 
-        links = main_nav_links + nav_folder_links
-
-        for link in links:
-            # Skip javascript links
-            if "javascript" in link.lower():
-                continue
-
-            # Skip links mail to
-            if "mailto" in link.lower():
-                continue
-
-            yield response.follow(link, self.parse)
-
-        for article in response.css(VNEXPRESS_SELECTORS["article"]).getall():
-            logging.debug("Article: %s", article)
-            yield response.follow(article, self.parse_article)
+    def parse_rss(self, response):
+        # Extract details from each article in a sub RSS feed
+        for post in response.xpath("//item"):
+            article_url = post.xpath("link/text()").get()
+            if article_url:
+                yield scrapy.Request(article_url, callback=self.parse_article)
 
     def parse_article(self, response):
         item = ArticleItem()
