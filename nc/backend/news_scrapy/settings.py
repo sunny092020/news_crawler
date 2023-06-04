@@ -163,3 +163,5 @@ FALLBACK_CATEGORY = "Khác"
 
 # Configure logging level
 LOG_LEVEL = "INFO"
+
+ARTICLE_FROM_DATE = "Tue, 01 Jun 2023 00:00:00 +0000"

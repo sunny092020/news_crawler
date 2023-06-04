@@ -3,6 +3,7 @@ from news_scrapy.settings import (
     VNEXPRESS_SELECTORS,
     VNEXPRESS_CATEGORY_MAPPING,
     FALLBACK_CATEGORY,
+    ARTICLE_FROM_DATE,
 )
 from news_scrapy.items import ArticleItem
 from datetime import datetime
@@ -28,8 +29,10 @@ class VnexpressSpider(scrapy.Spider):
             title = html.unescape(post.xpath("title/text()").get())
             description = html.unescape(extract_text(post.xpath("description/text()").get()))
             pub_date = post.xpath("pubDate/text()").get()
+            pub_date = parse_datetime(pub_date)
+            specific_date = parse_datetime(ARTICLE_FROM_DATE)
 
-            if article_url:
+            if article_url and pub_date >= specific_date:
                 yield scrapy.Request(
                     article_url,
                     callback=self.parse_article,
@@ -49,7 +52,7 @@ class VnexpressSpider(scrapy.Spider):
             or response.css(VNEXPRESS_SELECTORS["video_content"]).get()
         )
         item["site"] = self.name
-        item["published_date"] = parse_datetime(pub_date)
+        item["published_date"] = pub_date
         item["author"] = response.css(VNEXPRESS_SELECTORS["author"]).get()
         item["summary"] = description
 
