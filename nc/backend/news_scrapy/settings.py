@@ -63,9 +63,9 @@ DOWNLOAD_DELAY = 0.0625
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    "news_scrapy.middlewares.NewsScrapyDownloaderMiddleware": 543,
-# }
+DOWNLOADER_MIDDLEWARES = {
+    "news_scrapy.middlewares.IgnoreDuplicatesMiddleware": 543,
+}
 
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html

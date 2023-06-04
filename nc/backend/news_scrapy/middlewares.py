@@ -6,6 +6,8 @@
 from scrapy import signals
 from nc.news.models import Article
 from scrapy.exceptions import IgnoreRequest
+from twisted.internet import defer
+from twisted.internet.threads import deferToThread
 
 
 class NewsScrapySpiderMiddleware:
@@ -68,21 +70,7 @@ class NewsScrapyDownloaderMiddleware:
         return s
 
     def process_request(self, request, spider):
-        # Called for each request that goes through the downloader
-        # middleware.
-
-        # Must either:
-        # - return None: continue processing this request
-        # - or return a Response object
-        # - or return a Request object
-        # - or raise IgnoreRequest: process_exception() methods of
-        #   installed downloader middleware will be called
-
-        url = request.url
-        if Article.objects.filter(url=url).exists():
-            raise IgnoreRequest("URL already crawled.")
-
-        return None
+        return request
 
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.
@@ -105,3 +93,14 @@ class NewsScrapyDownloaderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info("Spider opened: %s" % spider.name)
+
+
+class IgnoreDuplicatesMiddleware:
+    def process_request(self, request, spider):
+        return deferToThread(self._process_request, request, spider)
+
+    def _process_request(self, request, spider):
+        url = request.url
+        if Article.objects.filter(url=url).exists():
+            raise IgnoreRequest("URL already crawled.")
+        return None
