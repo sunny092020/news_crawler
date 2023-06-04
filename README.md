@@ -22,9 +22,11 @@ start the app
 ./scripts/start.sh
 ```
 
-start crawling by open another terminal (while keeping the above terminal running)
+start crawling by open 2 another terminals (while keeping the above terminal running)  
+each run a script
 ```
-./script/start_spider.sh
+./script/start_dantri.sh
+./script/start_vnexpress.sh
 ```
 after finish crawling, open browser to see articles
 ```
