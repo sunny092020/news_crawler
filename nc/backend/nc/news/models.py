@@ -32,39 +32,52 @@ class Article(models.Model):
 
         # Try to find all images in the content
         imgs = soup.find_all("img")
-        max_size = 0
-        max_url = ""
-        for img in imgs:
-            image_url = img.get("data-src")
-            if image_url is None:
-                image_url = img.get("src")
 
-            if image_url is None:
-                continue
-
-            # If the image URL is relative, make it absolute
-            if not image_url.startswith("http") and not image_url.startswith("https"):
-                base_url = self.url.rsplit("/", 1)[
-                    0
-                ]  # remove the last part of the article URL
-                image_url = urljoin(base_url, image_url)
-
-            try:
-                # Check if the image URL is reachable
-                response = requests.head(image_url)
-                if response.status_code == 200:
-                    # Get the size of the image
-                    size = int(response.headers.get("content-length", "0"))
-                    if size > max_size:
-                        max_size = size
-                        max_url = image_url
-            except requests.exceptions.RequestException as e:
-                logger.error("Error while getting the image %s: %s", image_url, e)
-        if max_size > 0:
-            return max_url
+        thumbnail_url = self.get_largest_image_url(imgs)
+        if thumbnail_url:
+            return thumbnail_url
 
         # If no image is found, return the default thumbnail
         return settings.DEFAULT_THUMBNAIL_URL
+
+    def get_largest_image_url(self, imgs):
+        max_size = 0
+        max_url = ""
+        for img in imgs:
+            image_url = self.process_image_url(img)
+            if image_url:
+                size, url = self.check_image_url(image_url)
+                if size > max_size:
+                    max_size = size
+                    max_url = url
+        if max_size > 0:
+            return max_url
+
+    def process_image_url(self, img):
+        image_url = img.get("data-src")
+        if image_url is None:
+            image_url = img.get("src")
+        if image_url is None:
+            return None
+
+        # If the image URL is relative, make it absolute
+        if not image_url.startswith("http"):
+            base_url = self.url.rsplit("/", 1)[0]  # remove the last part of the article URL
+            image_url = urljoin(base_url, image_url)
+
+        return image_url
+
+    def check_image_url(self, image_url):
+        try:
+            # Check if the image URL is reachable
+            response = requests.head(image_url)
+            if response.status_code == 200:
+                # Get the size of the image
+                size = int(response.headers.get("content-length", "0"))
+                return size, image_url
+        except requests.exceptions.RequestException as e:
+            logger.error("Error while getting the image %s: %s", image_url, e)
+        return 0, ""
 
 
 class Category(models.Model):
