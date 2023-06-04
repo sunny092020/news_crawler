@@ -111,7 +111,7 @@ VNEXPRESS_SELECTORS = {
     "content": "article.fck_detail",
     "video_content": "div[id='videoContainter']",
     "publication_date": "span.date::text, p.cat_time span.time::text",
-    "author": "p.Normal strong::text, p.author_mail strong a::text, p.author span::text",
+    "author": "p.Normal[style='text-align:right'] strong::text, p.author_mail strong a::text, p.author span::text",
     "summary": "p.description::text, div.lead_detail::text",
 }
 
