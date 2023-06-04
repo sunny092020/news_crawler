@@ -1,3 +1,9 @@
+-Use scrapy to navigate websites and extract data  
+-Use Django, a high-level Python web framework, to manage and display the processed data.   
+-To ensure the seamless handling of tasks and maintain high performance, integrate Celery, an asynchronous task queue/job queue  
+-All the collected data is stored in PostgreSQL
+
+
 install docker
 ```
 sudo ./scripts/install_env.sh
