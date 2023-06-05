@@ -40,6 +40,6 @@ http://10.3.0.6:3000/
 ```
 
 This is for educational and experimental purpose only.  
-Use it with respect for the site owner.  
+Use it with respect for the site owner and the website's robots.txt file.  
 
 Thanks and best regards!
